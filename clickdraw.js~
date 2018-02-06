@@ -3,11 +3,22 @@ var height = canvas.getAttribute("height");
 var width = canvas.getAttribute("width");
 var ctx = canvas.getContext("2d"); // set context to 2d
 
-var stop = document.getElementById("stop");
+var toggle = document.getElementById("toggle");
+var clear = document.getElementById("clear");
+
+var detMouse = 0;
+
+var toggleCallBack = function(e){
+    detMouse++;
+};
+
+var clearCallBack = function(e){
+    console.log("cleared");
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0,0,600,600);  
+};
 
 var canvasCallBack = function(e){
-    e.preventDefault();
-    //drawDot(e.offset
     if (detMouse % 4 == 0){
 	drawDot(e.offsetX, e.offsetY);
 	console.log("offset");
@@ -27,36 +38,17 @@ var canvasCallBack = function(e){
 };
 
 var drawRect = function(x, y){
+    e.preventDefault();
     ctx.fillStyle = "#00f";
     ctx.fillRect(x,y,30,30);
 };
 
 var drawDot = function(x, y){
-    ctx.clearRect(0, 0, 600, 600);
-    ctx.beginPath();
+    e.preventDefault();
     ctx.fillStyle = "#ff0000";
     ctx.arc(x,y,20,0,2*Math.PI);
-    ctx.fill();
-    ctx.closePath();
-    x += 1;
-    window.requestAnimationFrame(drawDot(x, y));
 };
 
-var called = false;
-var canvasCB = function(e){
-    console.log(called);
-    if (!called){
-	var id = window.requestAnimationFrame(drawDot(e.offsetX, e.offsetY));
-	called = !called;
-	console.log(called);
-    }
-    
-};
-
-var stopCallBack = function(id){
-    window.cancelAnimationFrame(id);
-};
-
-stop.addEventListener("click", stopCallBack);
-canvas.addEventListener("click", canvasCB);
-
+toggle.addEventListener("click", toggleCallBack);
+clear.addEventListener("click", clearCallBack);
+canvas.addEventListener("click", canvasCallBack);
