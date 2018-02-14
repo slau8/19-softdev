@@ -17,6 +17,9 @@ var posY = height / 2;
 var incX = 5;
 var incY = 5;
 
+var logo = new Image();
+logo.src = "logo_dvd.jpg";
+
 // grow animation
 var radius = 1;
 var increment = 1;
@@ -38,30 +41,34 @@ var growCallBack = function(){
 
 var stopCallBack = function(){
   window.cancelAnimationFrame(id);
+  ctx.clearRect(0, 0, width, height);
   radius = 1;
   isRunning = false;
 };
 
 // Bounce dot of radius 50
 var bounceDot = function(){
-  radius = 50;
-  if (posX <= radius){ // bouncing off left wall
+  dvdHeight = 50;
+  dvdWidth = 100;
+  //console.log(posX);
+  if (posX <= dvdWidth / 2){ // bouncing off left wall
     incX = 1 * Math.floor(Math.random() * 5 + 2);
   }
-  if (posY <= radius){ // top wall
+  if (posY <= dvdHeight / 2){ // top wall
     incY = 1 * Math.floor(Math.random() * 5 + 2);
   }
-  if (posX >= width - radius){ // right wall
+  if (posX >= width - (dvdWidth / 2)){ // right wall
     incX = -1 * Math.floor(Math.random() * 5 + 2);
   }
-  if (posY >= width - radius){ // bottom wall
+  if (posY >= height - (dvdHeight / 2)){ // bottom wall
     incY = -1 * Math.floor(Math.random() * 5 + 2);
   }
   posX += incX;
   posY += incY;
-  drawDot(posX, posY, radius, "red");
+  //drawDot(posX, posY, radius, "red");
+  ctx.drawImage(logo, posX, posY, 100, 50);
   id = window.requestAnimationFrame(bounceDot);
-  console.log(id);
+  //console.log(id);
 };
 
 // Grow (or shrink) centered dot
